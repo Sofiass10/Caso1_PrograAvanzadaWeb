@@ -1,0 +1,27 @@
+$kind: http-request
+name: https://localhost:7084/api/Album
+description: ""
+url: https://localhost:7084/api/Album/99999999-9999-9999-9999-999999999999
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Abbey Road (Super Deluxe)\",\r
+
+    \  \"artista\": \"The Beatles\",\r
+
+    \  \"genero\": \"Rock\",\r
+
+    \  \"anioLanzamiento\": 2019,\r
+
+    \  \"cantidadCanciones\": 40\r
+
+    }"
+settings:
+  protocolVersion: auto
+  strictSSL: false
+  followRedirects: true
+  disableCookies: false
+  maxResponseSize: 52428800
+order: 11000

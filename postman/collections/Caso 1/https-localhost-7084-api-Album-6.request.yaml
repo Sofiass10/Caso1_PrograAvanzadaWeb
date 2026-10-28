@@ -1,0 +1,27 @@
+$kind: http-request
+name: https://localhost:7084/api/Album
+description: ""
+url: https://localhost:7084/api/Album
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Discovery\",\r
+
+    \  \"artista\": \"Daft Punk\",\r
+
+    \  \"genero\": \"Electrónica\",\r
+
+    \  \"anioLanzamiento\": 2001,\r
+
+    \  \"cantidadCanciones\": 14\r
+
+    }"
+settings:
+  protocolVersion: auto
+  strictSSL: false
+  followRedirects: true
+  disableCookies: false
+  maxResponseSize: 52428800
+order: 8000

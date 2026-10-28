@@ -1,0 +1,27 @@
+$kind: http-request
+name: https://localhost:7084/api/Album
+description: ""
+url: https://localhost:7084/api/Album/33333333-3333-3333-3333-333333333333
+method: DELETE
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"Abbey Road (Super Deluxe)\",\r
+
+    \  \"artista\": \"The Beatles\",\r
+
+    \  \"genero\": \"Rock\",\r
+
+    \  \"anioLanzamiento\": 2019,\r
+
+    \  \"cantidadCanciones\": 40\r
+
+    }"
+settings:
+  protocolVersion: auto
+  strictSSL: false
+  followRedirects: true
+  disableCookies: false
+  maxResponseSize: 52428800
+order: 12000

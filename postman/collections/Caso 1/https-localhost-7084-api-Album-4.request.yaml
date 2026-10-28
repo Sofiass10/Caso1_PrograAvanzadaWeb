@@ -1,0 +1,27 @@
+$kind: http-request
+name: https://localhost:7084/api/Album
+description: ""
+url: https://localhost:7084/api/Album/99999999-9999-9999-9999-999999999999
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \  \"titulo\": \"One more Time \",\r
+
+    \  \"artista\": \"Blink 182\",\r
+
+    \  \"genero\": \"Rock\",\r
+
+    \  \"anioLanzamiento\": 1969,\r
+
+    \  \"cantidadCanciones\": 17\r
+
+    }"
+settings:
+  protocolVersion: auto
+  strictSSL: false
+  followRedirects: true
+  disableCookies: false
+  maxResponseSize: 52428800
+order: 6000

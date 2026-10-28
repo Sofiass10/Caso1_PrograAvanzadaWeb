@@ -1,0 +1,6 @@
+@Albums.Abstraccions_HostAddress = http://localhost:5252
+
+GET {{Albums.Abstraccions_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
