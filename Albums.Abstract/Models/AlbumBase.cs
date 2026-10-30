@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Albums.Abstract.Models
+﻿namespace Albums.Abstract.Models
 {
-    public  class AlbumBase
+    public class AlbumBase
     {
-        public Guid Id { get; set; }
         public string Titulo { get; set; } = string.Empty;
         public string Artista { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;
@@ -24,5 +17,4 @@ namespace Albums.Abstract.Models
     {
         public Guid Id { get; set; }
     }
-
 }

@@ -1,10 +1,6 @@
 ﻿using Albums.Abstract.Interfaces.DA;
 using Albums.Abstract.Interfaces.FL;
-using Albums.Abstract.Interfaces.FL;
 using Albums.Abstract.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Albums.Flujo.Flujos
 {
@@ -17,12 +13,12 @@ namespace Albums.Flujo.Flujos
             _albumDA = albumDA;
         }
 
-        public async Task<IEnumerable<AlbumResponse>> Obtener(string artista)
+        public async Task<IEnumerable<AlbumResponse>> Obtener(string? artista)
         {
             return await _albumDA.Obtener(artista);
         }
 
-        public async Task<AlbumResponse> Obtener(Guid Id)
+        public async Task<AlbumResponse?> Obtener(Guid Id)
         {
             return await _albumDA.Obtener(Id);
         }

@@ -1,64 +1,62 @@
 ﻿using Albums.Abstract.Interfaces.DA;
 using Albums.Abstract.Models;
-using Albums.DataAccess.Contexto;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Albums.DataAccess
 {
     public class AlbumnesDA : IAlbumDA
     {
-        private readonly AlbumContexto _Context;
-
-        public AlbumnesDA(AlbumContexto context)
+        private static readonly List<AlbumResponse> _albumes = new List<AlbumResponse>
         {
-            _Context = context;
-        }
-        public async Task<IEnumerable<AlbumResponse>> Obtener(string artista)
-        {
-            var query = _Context.albumnes.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(artista))
+            new AlbumResponse
             {
-                query = query.Where(a => a.Artista.ToLower().Contains(artista.ToLower()));
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Titulo = "Thriller",
+                Artista = "Michael Jackson",
+                Genero = "Pop",
+                AnioLanzamiento = 1982,
+                CantidadCanciones = 9
+            },
+            new AlbumResponse
+            {
+                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                Titulo = "Abbey Road",
+                Artista = "The Beatles",
+                Genero = "Rock",
+                AnioLanzamiento = 1969,
+                CantidadCanciones = 17
+            },
+            new AlbumResponse
+            {
+                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                Titulo = "Un Verano Sin Ti",
+                Artista = "Bad Bunny",
+                Genero = "Reggaetón",
+                AnioLanzamiento = 2022,
+                CantidadCanciones = 23
             }
+        };
 
-            var listaAlbums = await query.ToListAsync();
-
-            return listaAlbums.Select(a => new AlbumResponse
-            {
-                Id = a.Id,
-                Titulo = a.Titulo,
-                Artista = a.Artista,
-                Genero = a.Genero,
-                AnioLanzamiento = a.AnioLanzamiento,
-                CantidadCanciones = a.CantidadCanciones
-            }).ToList();
-        }
-               public async Task<AlbumResponse?> Obtener(Guid Id)
+        public Task<IEnumerable<AlbumResponse>> Obtener(string? artista)
         {
-            var album = await _Context.albumnes.FindAsync(Id);
+            if (string.IsNullOrWhiteSpace(artista))
+                return Task.FromResult<IEnumerable<AlbumResponse>>(_albumes.ToList());
 
-            if (album == null)
-                return null;
+            var resultado = _albumes
+                .Where(a => a.Artista.Contains(artista, StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
-            return new AlbumResponse
-            {
-                Id = album.Id,
-                Titulo = album.Titulo,
-                Artista = album.Artista,
-                Genero = album.Genero,
-                AnioLanzamiento = album.AnioLanzamiento,
-                CantidadCanciones = album.CantidadCanciones
-            };
+            return Task.FromResult<IEnumerable<AlbumResponse>>(resultado);
         }
 
-        public async Task<Guid> Agregar(AlbumRequest album)
+        public Task<AlbumResponse?> Obtener(Guid Id)
         {
-            var nuevoAlbum = new AlbumBase
+            var album = _albumes.FirstOrDefault(a => a.Id == Id);
+            return Task.FromResult(album);
+        }
+
+        public Task<Guid> Agregar(AlbumRequest album)
+        {
+            var nuevoAlbum = new AlbumResponse
             {
                 Id = Guid.NewGuid(),
                 Titulo = album.Titulo,
@@ -68,38 +66,33 @@ namespace Albums.DataAccess
                 CantidadCanciones = album.CantidadCanciones
             };
 
-            _Context.albumnes.Add(nuevoAlbum);
-            await _Context.SaveChangesAsync();
-
-            return nuevoAlbum.Id;
+            _albumes.Add(nuevoAlbum);
+            return Task.FromResult(nuevoAlbum.Id);
         }
 
-        public async Task<bool> Editar(Guid Id, AlbumRequest album)
+        public Task<bool> Editar(Guid Id, AlbumRequest album)
         {
-            var albumExistente = await _Context.albumnes.FindAsync(Id);
-
+            var albumExistente = _albumes.FirstOrDefault(a => a.Id == Id);
             if (albumExistente == null)
-                return false;
+                return Task.FromResult(false);
+
             albumExistente.Titulo = album.Titulo;
             albumExistente.Artista = album.Artista;
             albumExistente.Genero = album.Genero;
             albumExistente.AnioLanzamiento = album.AnioLanzamiento;
             albumExistente.CantidadCanciones = album.CantidadCanciones;
-            await _Context.SaveChangesAsync();
 
-            return true;
+            return Task.FromResult(true);
         }
-        public async Task<bool> Eliminar(Guid Id)
+
+        public Task<bool> Eliminar(Guid Id)
         {
-            var albumExistente = await _Context.albumnes.FindAsync(Id);
-
+            var albumExistente = _albumes.FirstOrDefault(a => a.Id == Id);
             if (albumExistente == null)
-                return false;
+                return Task.FromResult(false);
 
-            _Context.albumnes.Remove(albumExistente);
-            await _Context.SaveChangesAsync();
-
-            return true;
+            _albumes.Remove(albumExistente);
+            return Task.FromResult(true);
         }
     }
 }

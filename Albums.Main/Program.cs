@@ -1,14 +1,9 @@
 using Albums.Abstract.Interfaces.DA;
 using Albums.Abstract.Interfaces.FL;
 using Albums.DataAccess;
-using Albums.DataAccess.Contexto;
 using Albums.Flujo.Flujos;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<AlbumContexto>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAlbumDA, AlbumnesDA>();
 builder.Services.AddScoped<IAlbumFlujo, AlbumFlujo>();

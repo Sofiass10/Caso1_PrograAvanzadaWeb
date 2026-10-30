@@ -1,7 +1,7 @@
 ﻿using Albums.Abstract.Interfaces.FL;
 using Albums.Abstract.Models;
 using Microsoft.AspNetCore.Mvc;
-using IAlbumController = Albums.Abstract.Interfaces.API.AlbumController;
+using Albums.Abstract.Interfaces.API;
 
 namespace Albums.API.Controllers
 {
