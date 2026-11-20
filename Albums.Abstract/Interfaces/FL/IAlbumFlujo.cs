@@ -9,5 +9,6 @@ namespace Albums.Abstract.Interfaces.FL
         Task<Guid> Agregar(AlbumRequest album);
         Task<bool> Editar(Guid Id, AlbumRequest album);
         Task<bool> Eliminar(Guid Id);
+        Task<string> ExportarCsv();
     }
 }

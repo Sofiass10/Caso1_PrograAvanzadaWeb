@@ -1,4 +1,5 @@
-﻿using Albums.Abstract.Interfaces.FL;
+﻿using System.Text;
+using Albums.Abstract.Interfaces.FL;
 using Albums.Abstract.Models;
 using Microsoft.AspNetCore.Mvc;
 using Albums.Abstract.Interfaces.API;
@@ -23,7 +24,7 @@ namespace Albums.API.Controllers
             return Ok(albumes);
         }
 
-        [HttpGet("{Id:guid}")]
+        [HttpGet("{Id:guid}", Name = "ObtenerAlbumPorId")]
         public async Task<IActionResult> Obtener([FromRoute] Guid Id)
         {
             var album = await _albumFlujo.Obtener(Id);
@@ -37,8 +38,11 @@ namespace Albums.API.Controllers
         public async Task<IActionResult> Agregar([FromBody] AlbumRequest album)
         {
             var id = await _albumFlujo.Agregar(album);
+            if (id == Guid.Empty)
+                return BadRequest("El artista indicado no existe.");
+
             var albumCreado = await _albumFlujo.Obtener(id);
-            return CreatedAtAction(nameof(Obtener), new { Id = id }, albumCreado);
+            return CreatedAtRoute("ObtenerAlbumPorId", new { Id = id }, albumCreado);
         }
 
         [HttpPut("{Id:guid}")]
@@ -59,6 +63,15 @@ namespace Albums.API.Controllers
                 return NotFound();
 
             return NoContent();
+        }
+
+        [HttpGet("exportar")]
+        public async Task<IActionResult> Exportar()
+        {
+            var csv = await _albumFlujo.ExportarCsv();
+            var bytes = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(csv)).ToArray();
+
+            return File(bytes, "text/csv", "albumes.csv");
         }
     }
 }

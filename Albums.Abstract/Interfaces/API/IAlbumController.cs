@@ -10,5 +10,6 @@ namespace Albums.Abstract.Interfaces.API
         Task<IActionResult> Agregar(AlbumRequest album);
         Task<IActionResult> Editar(Guid Id, AlbumRequest album);
         Task<IActionResult> Eliminar(Guid Id);
+        Task<IActionResult> Exportar();
     }
 }

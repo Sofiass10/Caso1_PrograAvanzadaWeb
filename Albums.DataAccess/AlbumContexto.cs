@@ -12,7 +12,6 @@ namespace Albums.DataAccess.Contexto
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // ---------- Artistas ----------
             modelBuilder.Entity<ArtistaEntidad>()
                 .ToTable("Artistas")
                 .HasKey(a => a.Id);
@@ -23,7 +22,6 @@ namespace Albums.DataAccess.Contexto
             modelBuilder.Entity<ArtistaEntidad>()
                 .Property(a => a.Pais).IsRequired().HasMaxLength(60);
 
-            // ---------- Albumes ----------
             modelBuilder.Entity<AlbumEntidad>()
                 .ToTable("Albumes")
                 .HasKey(a => a.Id);
@@ -40,14 +38,12 @@ namespace Albums.DataAccess.Contexto
             modelBuilder.Entity<AlbumEntidad>()
                 .Property(a => a.CantidadCanciones).IsRequired();
 
-            // ---------- Relación 1:N ----------
             modelBuilder.Entity<AlbumEntidad>()
                 .HasOne(a => a.Artista)
                 .WithMany(r => r.Albumes)
                 .HasForeignKey(a => a.ArtistaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ---------- Datos iniciales ----------
             var jackson = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
             var beatles = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
             var badBunny = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
